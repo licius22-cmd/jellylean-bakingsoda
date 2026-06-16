@@ -51,7 +51,6 @@
 
 
 	<style>
-		.esconder,
 		.after-quiz {
 			display: none;
 		}
@@ -114,6 +113,23 @@
 					overflow-x: hidden;
 				}
 			</style>
+
+			<style>
+  .esconder {
+    display: none;
+  }
+</style>
+
+<script>
+  var delaySeconds = 2188;
+  var player = document.querySelector("vturb-smartplayer");
+  player.addEventListener("player:ready", function() {
+    player.displayHiddenElements(delaySeconds, [".esconder"], {
+      persist: true
+    });
+  });
+</script>
+
 
 			<!-- QUIZ -->
 			<div class="esconder">
@@ -1748,58 +1764,7 @@
 
 
 
-		<script>
-			$(document).ready(function () {
-				var delaySeconds = 2189;
-				var player = document.querySelector("vturb-smartplayer");
-
-				player.addEventListener("player:ready", function () {
-					player.displayHiddenElements(delaySeconds, [".esconder"], { persist: true });
-
-					var initialized = false;
-
-					var checkInterval = setInterval(function () {
-						var $target = $(".esconder:visible").first();
-
-						if ($target.length && !initialized) {
-							initialized = true;
-							clearInterval(checkInterval);
-
-							// Scroll suave
-							var $scrollTarget = $("#quiz-wrapper");
-							if ($scrollTarget.length) {
-								$('html, body').animate({
-									scrollTop: $scrollTarget.offset().top
-								}, 800);
-							}
-
-							// var $scrollTarget = $("#scrolldown");
-							// if ($scrollTarget.length) {
-							// 	$('html, body').animate({
-							// 		scrollTop: $scrollTarget.offset().top
-							// 	}, 800);
-							// }
-
-							// Manipular todos os .countdown dentro do .esconder visível
-							$target.find(".countdown").each(function () {
-								var $countdownEl = $(this);
-								var desiredValue = parseInt($countdownEl.text().trim().match(/\d+/)[0], 10);
-
-								var decrementTimer = setInterval(function () {
-									if (desiredValue > 48) {
-										desiredValue = Math.max(desiredValue - 6, 48);
-										$countdownEl.text(desiredValue);
-									} else {
-										clearInterval(decrementTimer);
-									}
-								}, 8000);
-							});
-
-						}
-					}, 500); // checa a cada 0.5s se ficou visível
-				});
-			});
-		</script>
+		
 
 
 
